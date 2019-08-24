@@ -1,0 +1,129 @@
+{% extends 'layouts/main.html' %}
+{% block title %}About{% endblock %}
+{% block content %}
+
+<h2></h2>
+
+<div class="container col-4">
+
+  <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">-->
+  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+{#  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">#}
+{#  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>#}
+{#  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>#}
+{#  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">#}
+{#  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">#}
+<!--  <table>-->
+<!--  <tr>-->
+<!--                <td scope='row'> {{ form["dist"] }} </td>-->
+<!--                <td> {{ form["entryVal"] }} </td>-->
+<!--                </tr>-->
+<!--    </table>-->
+  <form method="POST">
+    <fieldset>
+      <!-- Form Name -->
+      <legend>Generate Exit Valuation distribution</legend>
+{{ form.hidden_tag() }}
+      <!-- Select Basic -->
+      <div class="form-group row">
+        <label for="Distribution" class="col-3 col-form-label">Select Distribution</label>
+        <div class="col-6">
+          <select id="Distribution" name="Distribution" class="form-control">
+            <option value="exponential">Exponential</option>
+            <option value="normal">Normal-Gaussian</option>
+            <option value="lognormal">Log-Normal</option>
+            <option value="randomunif">Random-Uniform</option>
+          </select>
+        </div>
+      </div>
+
+<!-- Text input-->
+      <div class="form-group row">
+        <label for="assetName" class="col-3 col-form-label">Asset Name</label>
+        <div class="col-9">
+          <input  type="text" id="assetName" name="assetName"
+                  placeholder="Name of Asset/ Instrument of Investment" class="form-control" required="required">
+        </div>
+      </div>
+
+      <!-- Text input-->
+      <div class="form-group row">
+        <label for="entryVal" class="col-3 col-form-label">Entry Valuation</label>
+        <div class="col-9">
+          <input value="100" min="10" max="1000" type="range" step="1" id="entryVal" name="entryVal"  class="form-control" required="required">
+          <!--      placeholder="current valuation of Asset/ Instrument "-->
+        </div>
+      </div>
+
+      <!-- Text input-->
+      <div class="form-group row">
+        <label for="ownPercent" class="col-3 col-form-label">Ownership Percent</label>
+        <div class="col-9">
+          <input value="0.2" id="ownPercent" name="ownPercent" min="0.01" max="0.5" type="range" step="0.01" class="form-control" required="required">
+
+          <!--      Code to add display for slider without bootstrap mobile -->
+          <!--      <input id="ownPercent" name="ownPercent" min="0.01" max="0.5" type="range" step="0.01" class="form-control" required="required"-->
+          <!--      oninput="amount.value = ownPercent.value">-->
+          <!--      <output name="ownPercentOP" id="amount" for="rangeInput">0</output>-->
+        </div>
+      </div>
+
+      <!-- Text input-->
+      <div class="form-group row">
+        <label for="periodYears" class="col-3 col-form-label">Duration of Investment</label>
+        <div class="col-9">
+          <input value="10" id="periodYears" data-show-value="true" name="periodYears"  min="5" max="15" type="range" step="1" class="form-control" required="required">
+          <!--      placeholder="Number of years of investment"-->
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="growthRate" class="col-3 col-form-label">Estimated annual mean growth rate</label>
+        <div class="col-9">
+          <input value="0.25" id="growthRate" name="growthRate"  min="0.00" max="1.5" type="range" step="0.01" class="form-control" required="required">
+          <!--      placeholder="0.0 - 1.5"-->
+        </div>
+      </div>
+
+      <!-- Text input-->
+      <div class="form-group row">
+        <label for="sigma" class="col-3 col-form-label">Optional Standard Deviation</label>
+        <div class="col-9">
+          <input id="sigma" name="sigma" type="number" class="form-control">
+        </div>
+      </div>
+
+            <!-- Select Basic -->
+      <div class="form-group row">
+        <label for="samples" class="col-3 col-form-label">Number of Samples</label>
+        <div class="col-3">
+          <select id="samples" name="samples" class="form-control">
+            <option value="100">100</option>
+            <option value="1000">1,000</option>
+            <option value="5000">5,000</option>
+            <option value="10000">10,000</option>
+            <option value="50000">50,000</option>
+            <option value="100000">100,000</option>
+          </select>
+        </div>
+      </div>
+
+
+
+<!-- Submit input-->
+      <div class="form-group row">
+        <div class="offset-3 col-3">
+          <button name="submit" type="submit" class="btn btn-primary">Generate Samples</button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  <div class="container">
+
+{{ script|safe }}
+{{ div|safe }}
+
+  </div>
+
+</div>
+    <div class="container col-8"></div>
+{% endblock %}

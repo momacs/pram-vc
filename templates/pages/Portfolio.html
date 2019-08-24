@@ -1,0 +1,76 @@
+{% extends 'layouts/main.html' %}
+{% block title %}About{% endblock %}
+{% block content %}
+
+{#<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">#}
+{#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">#}
+<form class="form-horizontal" method="post">
+<fieldset>Q
+
+<!-- Form Name -->
+<legend> Number of Assets</legend>
+
+<!-- Text input-->
+<div class="form-group">
+<!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+    {{ form.portfolioName.label(class="col-md-4 control-label")}}
+  <div class="col-md-4">
+<!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+      {{ form.portfolioName(class="form-control input-md") }}
+  </div>
+</div>
+
+    <!-- Text input-->
+<div class="form-group">
+<!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+    {{ form.num_samples.label(class="col-md-4 control-label")}}
+  <div class="col-md-4">
+<!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+      {{ form.num_samples(class="form-control input-md") }}
+  </div>
+</div>
+
+    <!-- Text input-->
+<div class="form-group">
+<!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+    {{ form.dist.label(class="col-md-4 control-label")}}
+  <div class="col-md-4">
+<!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+      {{ form.dist(class="form-control input-md") }}
+  </div>
+</div>
+
+        <!-- Text input-->
+<div class="form-group">
+<!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+    {{ form.num_assets.label(class="col-md-4 control-label")}}
+  <div class="col-md-4">
+<!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+      {{ form.num_assets(class="form-control input-md") }}
+  </div>
+</div>
+
+
+
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="btn"></label>
+  <div class="col-md-4">
+    <button id="btn" name="btn" class="btn btn-primary">Submit</button>
+  </div>
+</div>
+
+<!-- Button (Double) -->
+<!--<div class="form-group">-->
+<!--  <label class="col-md-4 control-label" for="button1id">Double Button</label>-->
+<!--  <div class="col-md-8">-->
+<!--    <button id="button1id" name="button1id" class="btn btn-success">Good Button</button>-->
+<!--    <button id="button2id" name="button2id" class="btn btn-danger">Scary Button</button>-->
+<!--  </div>-->
+<!--</div>-->
+
+</fieldset>
+</form>
+
+    {% endblock %}

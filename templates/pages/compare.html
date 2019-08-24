@@ -1,0 +1,284 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Compare{% endblock %}
+{% block content %}
+<!--Plugin CSS file with desired skin-->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css"/>
+
+<!--jQuery-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!--Plugin JavaScript file-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
+
+<h2></h2>
+<form class="form-horizontal" method="post">
+    {#<fieldset>#}
+    <div class="container container-fluid">
+{{ form.hidden_tag() }}
+        <div class="row">
+            {# left Panel#}
+            <div class="col-md-5">
+                <!-- Form Name -->
+                <legend> Asset</legend>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                    {{ form.a_assetName.label(class="col-md-4 control-label") }}
+                    <div class="col-md-4">
+                        <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                        {{ form.a_assetName(class="form-control input-md") }}
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                    {{ form.a_entryVal.label(class="col-md-4 control-label") }}
+                    <div class="col-md-4">
+                        <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                        {{ form.a_entryVal(class="form-control input-md") }}
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                    {{ form.a_ownPercent.label(class="col-md-4 control-label") }}
+                    <div class="col-md-4">
+                        <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                        {{ form.a_ownPercent(class="form-control input-md") }}
+                    </div>
+                </div>
+                <!-- Text input-->
+                <div class="form-group">
+                    <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                    {{ form.a_growthRate.label(class="col-md-4 control-label") }}
+                    <div class="col-md-4">
+                        <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                        {{ form.a_growthRate(class="form-control input-md") }}
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                    {{ form.a_periodYears.label(class="col-md-4 control-label") }}
+                    <div class="col-md-4">
+                        <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                        {{ form.a_periodYears(class="form-control input-md") }}
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                    {{ form.a_sigma.label(class="col-md-4 control-label") }}
+                    <div class="col-md-4">
+                        <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                        {{ form.a_sigma(class="form-control input-md") }}
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                    {{ form.a_dist.label(class="col-md-4 control-label") }}
+                    <div class="col-md-4">
+                        <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                        {{ form.a_dist(class="form-control input-md") }}
+                    </div>
+                </div>
+
+
+                <!-- Button (Double) -->
+                <!--<div class="form-group">-->
+                <!--  <label class="col-md-4 control-label" for="button1id">Double Button</label>-->
+                <!--  <div class="col-md-8">-->
+                <!--    <button id="button1id" name="button1id" class="btn btn-success">Good Button</button>-->
+                <!--    <button id="button2id" name="button2id" class="btn btn-danger">Scary Button</button>-->
+                <!--  </div>-->
+                <!--</div>-->
+            </div>
+            {# Right Panel#}
+            <div class="col-md-5">
+                <!-- Form Name -->
+                <legend> Asset</legend>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                    {{ form.b_assetName.label(class="col-md-4 control-label") }}
+                    <div class="col-md-4">
+                        <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                        {{ form.b_assetName(class="form-control input-md") }}
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                    {{ form.b_entryVal.label(class="col-md-4 control-label") }}
+                    <div class="col-md-4">
+                        <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                        {{ form.b_entryVal(class="form-control input-md js-range-slider", type="range") }}
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                    {{ form.b_ownPercent.label(class="col-md-4 control-label") }}
+                    <div class="col-md-4">
+                        <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                        {{ form.b_ownPercent(class="form-control input-md") }}
+                    </div>
+                </div>
+                <!-- Text input-->
+                <div class="form-group">
+                    <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                    {{ form.b_growthRate.label(class="col-md-4 control-label") }}
+                    <div class="col-md-4">
+                        <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                        {{ form.b_growthRate(class="form-control input-md") }}
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                    {{ form.b_periodYears.label(class="col-md-4 control-label") }}
+                    <div class="col-md-4">
+                        <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                        {{ form.b_periodYears(class="form-control input-md") }}
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                    {{ form.b_sigma.label(class="col-md-4 control-label") }}
+                    <div class="col-md-4">
+                        <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                        {{ form.b_sigma(class="form-control input-md") }}
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                    {{ form.b_dist.label(class="col-md-4 control-label") }}
+                    <div class="col-md-4">
+                        <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                        {{ form.b_dist(class="form-control input-md") }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+{# lower Button and Samples dropdown#}
+        <div class="row">
+            <div class="col-md-6 col-md-offset-2">
+                <!-- Text input-->
+                <div class="form-group">
+                    <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                    {{ form.samples.label(class="col-md-4 control-label") }}
+                    <div class="col-md-4">
+                        <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                        {{ form.samples(class="form-control input-md") }}
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-6 control-label" for="btn"></label>
+                    <div class="col-md-6">
+                        <button id="btn" name="btn" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+
+                <!-- Button (Double) -->
+                <!--<div class="form-group">-->
+                <!--  <label class="col-md-4 control-label" for="button1id">Double Button</label>-->
+                <!--  <div class="col-md-8">-->
+                <!--    <button id="button1id" name="button1id" class="btn btn-success">Good Button</button>-->
+                <!--    <button id="button2id" name="button2id" class="btn btn-danger">Scary Button</button>-->
+                <!--  </div>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+    {#</fieldset>#}
+    <script type='text/javascript'>
+
+
+    </script>
+</form>
+<div class="container container-fluid">
+    {#        <h1>abcd : {{ stats }}</h1>#}
+    {% if stats %}
+        <div class="col-md-offset-2 col-md-6">
+            <table class="table table-hover table-bordered ">
+                <thead>
+                <tr>
+                    <th scope="col">Statistics</th>
+                    <th scope="col">{{ form.a_assetName.data }}</th>
+                    <th scope="col">{{ form.b_assetName.data }}</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">Size</th>
+                    <td>{{ stats.get("a_stats")[0] }}</td>
+                    <td>{{ stats.get("b_stats")[0] }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Min</th>
+                    <td>{{ stats.get("a_stats")[1][0] | round }}</td>
+                    <td>{{ stats.get("b_stats")[1][0] | round }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Max</th>
+                    <td>{{ stats.get("a_stats")[1][1] | round }}</td>
+                    <td>{{ stats.get("b_stats")[1][1] | round }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Mean</th>
+                    <td>{{ stats.get("a_stats")[2]  | round }}</td>
+                    <td>{{ stats.get("b_stats")[2]  | round }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Std</th>
+                    <td>{{ stats.get("a_stats")[3]  | round }}</td>
+                    <td>{{ stats.get("b_stats")[3]  | round }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Skew</th>
+                    <td>{{ stats.get("a_stats")[4]  | round }}</td>
+                    <td>{{ stats.get("b_stats")[4]  | round }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Kurtosis</th>
+                    <td>{{ stats.get("a_stats")[5]  | round }}</td>
+                    <td>{{ stats.get("b_stats")[5]  | round }}</td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    {% endif %}
+</div>
+
+<div class="container col-8">
+    <div class="container">
+
+        {{ script|safe }}
+        {{ div|safe }}
+
+    </div>
+
+</div>
+{% endblock %}

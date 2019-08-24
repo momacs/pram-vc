@@ -1,0 +1,171 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Pram{% endblock %}
+{% block content %}
+
+    <h2></h2>
+    <form class="form-horizontal" method="post">
+        {#<fieldset>#}
+        <div class="container container-fluid">
+            <div class="row">
+                <div class="col-md-5">
+                    <!-- Form Name -->
+                    <legend> Transition Matrix Data</legend>
+{{ form.hidden_tag() }}
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                        {{ form.initial_population.label(class="col-md-4 control-label") }}
+                        <div class="col-md-4">
+                            <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                            {{ form.initial_population(class="form-control input-md") }}
+                        </div>
+                    </div>
+
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                        {{ form.round_seed_a.label(class="col-md-4 control-label") }}
+                        <div class="col-md-4">
+                            <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                            {{ form.round_seed_a(class="form-control input-md") }}
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                        {{ form.round_seed_failure.label(class="col-md-4 control-label") }}
+                        <div class="col-md-4">
+                            <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                            {{ form.round_seed_failure(class="form-control input-md") }}
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                        {{ form.round_a_b.label(class="col-md-4 control-label") }}
+                        <div class="col-md-4">
+                            <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                            {{ form.round_a_b(class="form-control input-md") }}
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                        {{ form.round_a_failure.label(class="col-md-4 control-label") }}
+                        <div class="col-md-4">
+                            <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                            {{ form.round_a_failure(class="form-control input-md") }}
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                        {{ form.round_b_c.label(class="col-md-4 control-label") }}
+                        <div class="col-md-4">
+                            <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                            {{ form.round_b_c(class="form-control input-md") }}
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                        {{ form.round_b_failure.label(class="col-md-4 control-label") }}
+                        <div class="col-md-4">
+                            <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                            {{ form.round_b_failure(class="form-control input-md") }}
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                        {{ form.round_c_success.label(class="col-md-4 control-label") }}
+                        <div class="col-md-4">
+                            <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                            {{ form.round_c_success(class="form-control input-md") }}
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                        {{ form.round_c_failure.label(class="col-md-4 control-label") }}
+                        <div class="col-md-4">
+                            <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                            {{ form.round_c_failure(class="form-control input-md") }}
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                        {{ form.round_success_success.label(class="col-md-4 control-label") }}
+                        <div class="col-md-4">
+                            <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                            {{ form.round_success_success(class="form-control input-md") }}
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                        {{ form.round_success_failure.label(class="col-md-4 control-label") }}
+                        <div class="col-md-4">
+                            <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                            {{ form.round_success_failure(class="form-control input-md") }}
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                        {{ form.round_failure_success.label(class="col-md-4 control-label") }}
+                        <div class="col-md-4">
+                            <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                            {{ form.round_failure_success(class="form-control input-md") }}
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <!--  <label class="col-md-4 control-label" for="numAsset">Enter number of Asset</label>-->
+                        {{ form.round_failure_failure.label(class="col-md-4 control-label") }}
+                        <div class="col-md-4">
+                            <!--  <input id="numAsset" name="numAsset" type="number" min="1" max="20" placeholder="#" class="form-control input-md" required="required">-->
+                            {{ form.round_failure_failure(class="form-control input-md") }}
+                        </div>
+                    </div>
+
+                    <!-- Button (Double) -->
+                    <div class="form-group">
+                        <!--<label class="col-md-4 control-label" for="button1id">Double Button</label>-->
+                        <div class="col-md-offset-4 col-md-8">
+                            <button id="button1id" name="button1id" class="btn btn-success">Submit</button>
+                            <!-- <button id="button2id" name="button2id" class="btn btn-danger">Scary Button</button> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="container col-md-7">
+        <div class="container">
+
+            {{ bokeh_script|safe }}
+
+        </div>
+
+    </div>
+            </div>
+        </div>
+        {#</fieldset>#}
+
+        <script type='text/javascript'>
+
+
+        </script>
+    </form>
+
+
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Pram{% endblock %}
+{% block content %}
+
+    <h2></h2>
+    <form class="form-horizontal" method="post">
+        {#<fieldset>#}
+        <div class="container container-fluid">
+            <div class="row">
+                <div class="col-md-5">
+
+{#                    <my-space></my-space>#}
+
+
+{{ form.addresses }}
+                    {{ form.data }}
+
+
+
+{#                    <my-space></my-space>#}
+                    <!-- Button (Double) -->
+                    <div class="form-group">
+                        <!--<label class="col-md-4 control-label" for="button1id">Double Button</label>-->
+                        <div class="col-md-offset-4 col-md-8">
+                            <button id="button1id" name="button1id" class="btn btn-success">Submit</button>
+                            <!-- <button id="button2id" name="button2id" class="btn btn-danger">Scary Button</button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {#</fieldset>#}
+
+        <script type='text/javascript'>
+
+
+        </script>
+    </form>
+
+
+    </div>
+{% endblock %}

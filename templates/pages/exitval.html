@@ -1,0 +1,85 @@
+{% extends 'layouts/main.html' %}
+{#{%  include "bootstrap/base.html" %}#}
+{%  import"bootstrap/wtf.html" as wtf %}
+
+
+{% block title %}Pram{% endblock %}
+{% block content %}
+{% from "pages/_formhelpers.html" import render_field   %}
+    <h2></h2>
+    <form class="form-horizontal" method="post">
+        {#<fieldset>#}
+        <div class="container container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                                        <!-- Form Name -->
+                    <legend> Transition Matrix Data</legend>
+<d1 class="col-md-">
+    {{ form.hidden_tag() }}
+  {{ wtf.form_field(form.initial_population, class='form-control', placeholder='Please enter value') }}
+{{ wtf.form_field(form.round_seed_a, class='form-control', placeholder='Please enter value') }}
+{{ wtf.form_field(form.round_seed_failure, class='form-control', placeholder='Please enter value') }}
+{{ wtf.form_field(form.round_a_a, class='form-control', placeholder='Please enter value') }}
+    {{ wtf.form_field(form.round_a_b, class='form-control', placeholder='Please enter value') }}
+{{ wtf.form_field(form.round_a_failure, class='form-control', placeholder='Please enter value') }}
+{{ wtf.form_field(form.round_b_b, class='form-control', placeholder='Please enter value') }}
+    {{ wtf.form_field(form.round_b_c, class='form-control', placeholder='Please enter value') }}
+{{ wtf.form_field(form.round_b_failure, class='form-control', placeholder='Please enter value') }}
+{{ wtf.form_field(form.round_c_c, class='form-control', placeholder='Please enter value') }}
+    {{ wtf.form_field(form.round_c_success, class='form-control', placeholder='Please enter value') }}
+{{ wtf.form_field(form.round_c_failure, class='form-control', placeholder='Please enter value') }}
+{{ wtf.form_field(form.round_success_success, class='form-control', placeholder='Please enter value') }}
+{{ wtf.form_field(form.round_success_failure, class='form-control', placeholder='Please enter value') }}
+{{ wtf.form_field(form.round_failure_success, class='form-control', placeholder='Please enter value') }}
+{{ wtf.form_field(form.round_failure_failure, class='form-control', placeholder='Please enter value') }}
+
+{{ wtf.form_field(form.growth_a, class='form-control', placeholder='Please enter value') }}
+{{ wtf.form_field(form.growth_b, class='form-control', placeholder='Please enter value') }}
+{{ wtf.form_field(form.growth_c, class='form-control', placeholder='Please enter value') }}
+{{ wtf.form_field(form.growth_success, class='form-control', placeholder='Please enter value') }}
+
+ </d1>
+{#   {{ render_field(form.initial_population) }}#}
+{#   {{ render_field(form.round_seed_a) }}#}
+{#                    {{ render_field(form.round_seed_a) }}#}
+{#                    {{ render_field(form.round_seed_a) }}#}
+{#                    {{ render_field(form.round_seed_a) }}#}
+{#                    {{ render_field(form.round_seed_a) }}#}
+{#                    {{ render_field(form.round_seed_a) }}#}
+
+
+
+
+                    <!-- Button (Double) -->
+                    <div class="form-group">
+                        <!--<label class="col-md-4 control-label" for="button1id">Double Button</label>-->
+                        <div class="col-md-offset-4 col-md-8">
+                            <button id="button1id" name="button1id" class="btn btn-success">Submit</button>
+                            <!-- <button id="button2id" name="button2id" class="btn btn-danger">Scary Button</button> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="container col-md-7">
+        <div class="container">
+
+            {{ bokeh_script|safe }}
+
+        </div>
+
+    </div>
+            </div>
+        </div>
+        {#</fieldset>#}
+{% for field in form.errors %}
+{% for error in form.errors[field] %}
+    <div class="alert alert-error">
+        <strong>Error!</strong> {{error}}
+    </div>
+{% endfor %}
+{% endfor %}
+
+    </form>
+
+
+
+{% endblock %}

@@ -1,0 +1,218 @@
+    {% extends "layout.html" %}
+
+    {% block content %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<form class="form-horizontal">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Form Name</legend>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="assetName">Asset Name</label>
+  <div class="col-md-4">
+  <input id="assetName" name="assetName" type="text" placeholder="Name" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="entryVal">Entry Valuation</label>
+  <div class="col-md-4">
+  <input id="entryVal" name="entryVal" type="text" placeholder="numeric valuation" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="own_percent">Ownership Percentage</label>
+  <div class="col-md-4">
+  <input id="own_percent" name="own_percent" type="text" placeholder="0.0 to 0.5" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="growthRate">Estimated/ Expected annual growth Rate</label>
+  <div class="col-md-4">
+  <input id="growthRate" name="growthRate" type="text" placeholder="0.0 to 1.0" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="Distribution">Select Distribution</label>
+  <div class="col-md-4">
+    <select id="Distribution" name="Distribution" class="form-control">
+      <option value="exponential">Exponential</option>
+      <option value="normal">Normal-Gaussian</option>
+      <option value="lognormal">Log-Normal</option>
+      <option value="randomunif">Random-Uniform</option>
+    </select>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="periodYears">Investment Duration in years</label>
+  <div class="col-md-4">
+  <input id="periodYears" name="periodYears" type="text" placeholder="Investment Duration in years" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="paramSigma">Standard deviation</label>
+  <div class="col-md-4">
+  <input id="paramSigma" name="paramSigma" type="text" placeholder="Optional" class="form-control input-md">
+
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="textinput">Text Input</label>
+  <div class="col-md-4">
+  <input id="textinput" name="textinput" type="text" placeholder="placeholder" class="form-control input-md">
+  <span class="help-block">help</span>
+  </div>
+</div>
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="singlebutton">Single Button</label>
+  <div class="col-md-4">
+    <button id="singlebutton" name="singlebutton" class="btn btn-primary">Submit</button>
+  </div>
+</div>
+
+<!-- Button (Double) -->
+<!--<div class="form-group">-->
+<!--  <label class="col-md-4 control-label" for="button1id">Double Button</label>-->
+<!--  <div class="col-md-8">-->
+<!--    <button id="button1id" name="button1id" class="btn btn-success">Good Button</button>-->
+<!--    <button id="button2id" name="button2id" class="btn btn-danger">Scary Button</button>-->
+<!--  </div>-->
+<!--</div>-->
+
+</fieldset>
+</form>
+
+    {% endblock %}
+    {% extends "layout.html" %}
+
+    {% block content %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<form class="form-horizontal">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Form Name</legend>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="assetName">Asset Name</label>
+  <div class="col-md-4">
+  <input id="assetName" name="assetName" type="text" placeholder="Name" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="entryVal">Entry Valuation</label>
+  <div class="col-md-4">
+  <input id="entryVal" name="entryVal" type="text" placeholder="numeric valuation" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="own_percent">Ownership Percentage</label>
+  <div class="col-md-4">
+  <input id="own_percent" name="own_percent" type="text" placeholder="0.0 to 0.5" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="growthRate">Estimated/ Expected annual growth Rate</label>
+  <div class="col-md-4">
+  <input id="growthRate" name="growthRate" type="text" placeholder="0.0 to 1.0" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Select Basic -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="Distribution">Select Distribution</label>
+  <div class="col-md-4">
+    <select id="Distribution" name="Distribution" class="form-control">
+      <option value="exponential">Exponential</option>
+      <option value="normal">Normal-Gaussian</option>
+      <option value="lognormal">Log-Normal</option>
+      <option value="randomunif">Random-Uniform</option>
+    </select>
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="periodYears">Investment Duration in years</label>
+  <div class="col-md-4">
+  <input id="periodYears" name="periodYears" type="text" placeholder="Investment Duration in years" class="form-control input-md" required="">
+
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="paramSigma">Standard deviation</label>
+  <div class="col-md-4">
+  <input id="paramSigma" name="paramSigma" type="text" placeholder="Optional" class="form-control input-md">
+
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="textinput">Text Input</label>
+  <div class="col-md-4">
+  <input id="textinput" name="textinput" type="text" placeholder="placeholder" class="form-control input-md">
+  <span class="help-block">help</span>
+  </div>
+</div>
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="singlebutton">Single Button</label>
+  <div class="col-md-4">
+    <button id="singlebutton" name="singlebutton" class="btn btn-primary">Submit</button>
+  </div>
+</div>
+
+<!-- Button (Double) -->
+<!--<div class="form-group">-->
+<!--  <label class="col-md-4 control-label" for="button1id">Double Button</label>-->
+<!--  <div class="col-md-8">-->
+<!--    <button id="button1id" name="button1id" class="btn btn-success">Good Button</button>-->
+<!--    <button id="button2id" name="button2id" class="btn btn-danger">Scary Button</button>-->
+<!--  </div>-->
+<!--</div>-->
+
+</fieldset>
+</form>
+
+    {% endblock %}
