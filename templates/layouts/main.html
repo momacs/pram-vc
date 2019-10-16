@@ -68,9 +68,14 @@
                             href="{{ url_for('compare') }}">Compare</a></li>
                     <li {% if request.endpoint == 'portfolio' %} class="active" {% endif %}><a
                             href="{{ url_for('portfolio') }}">Portfolio</a></li>
-                    <li {% if request.endpoint == 'finance_pram' %} class="active" {% endif %}><a href="{{ url_for('pram_analysis') }}">Pram</a>
+{#                    <li {% if request.endpoint == 'finance_pram' %} class="active" {% endif %}><a#}
+{#                            href="{{ url_for('pram_analysis') }}">Pram</a>#}
+{#                    </li>#}
+                    <li {% if request.endpoint == 'pram_exit_valuation_analysis' %} class="active" {% endif %}><a
+                            href="{{ url_for('pram_exit_valuation_analysis') }}">Exit Valuation</a>
                     </li>
-                <li {% if request.endpoint == 'pram_exit_valuation_analysis' %} class="active" {% endif %}><a href="{{ url_for('pram_exit_valuation_analysis') }}">Exit Valuation</a>
+                    <li {% if request.endpoint == 'compare_pram' %} class="active" {% endif %}><a
+                            href="{{ url_for('compare_pram') }}">Compare Exit Valuation</a>
                     </li>
                     {#            <li class="dropdown">#}
                     {#              <a class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>#}

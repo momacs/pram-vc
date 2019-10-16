@@ -48,33 +48,45 @@ class Asset(object):
 
     def generate_samples(self,  distribution = 'exponential',num_samples = 10000, *args, **kwargs):
 
+
         self.exit_investment = np.zeros((self.investment_period_year+1,num_samples))
         self.exit_investment[0] = self.initial_investment
         for year in range(1, self.investment_period_year + 1):
             self.exit_investment[year] = self.exit_investment[year - 1] \
                                          * (1 + np.random.exponential(self.mean_growth_rate, num_samples))
+        if distribution == 'normal':
+            # for normal dist #todo : need to find efficient design for computing different function as the sample size grows
+            self.exit_investment_normal = np.zeros((self.investment_period_year+1,num_samples))
+            self.exit_investment_normal[0] = self.initial_investment
+            for year in range(1, self.investment_period_year + 1):
+                self.exit_investment_normal[year] = self.exit_investment[year - 1] \
+                                             * (1 + np.random.normal(self.mu, self.sigma,num_samples))
+            self.exit_investment = self.exit_investment_normal
+            # for lognormal dist
+        elif distribution == 'lognormal':
+            self.exit_investment_lognormal = np.zeros((self.investment_period_year + 1, num_samples))
+            self.exit_investment_lognormal[0] = self.initial_investment
 
-        # for normal dist #todo : need to find efficient design for computing different function as the sample size grows
-        self.exit_investment_normal = np.zeros((self.investment_period_year+1,num_samples))
-        self.exit_investment_normal[0] = self.initial_investment
-        for year in range(1, self.investment_period_year + 1):
-            self.exit_investment_normal[year] = self.exit_investment[year - 1] \
-                                         * (1 + np.random.normal(self.mu, self.sigma,num_samples))
-        # for lognormal dist
-        self.exit_investment_lognormal = np.zeros((self.investment_period_year + 1, num_samples))
-        self.exit_investment_lognormal[0] = self.initial_investment
+            for year in range(1, self.investment_period_year + 1):
+                self.exit_investment_lognormal[year] = self.exit_investment[year - 1] \
+                                                 * (1 + np.random.lognormal(self.mu, self.sigma,num_samples))
+            self.exit_investment = self.exit_investment_lognormal
 
-        for year in range(1, self.investment_period_year + 1):
-            self.exit_investment_lognormal[year] = self.exit_investment[year - 1] \
-                                             * (1 + np.random.lognormal(self.mu, self.sigma,num_samples))
+        elif distribution == 'randomunif':
+            # for uniform dist
+            self.exit_investment_unif = np.zeros((self.investment_period_year + 1, num_samples))
+            self.exit_investment_unif[0] = self.initial_investment
 
-        # for uniform dist
-        self.exit_investment_unif = np.zeros((self.investment_period_year + 1, num_samples))
-        self.exit_investment_unif[0] = self.initial_investment
-
-        for year in range(1, self.investment_period_year + 1):
-            self.exit_investment_unif[year] = self.exit_investment[year - 1] \
-                                         * (1 + np.random.uniform(-self.mu,+self.mu,num_samples))
+            for year in range(1, self.investment_period_year + 1):
+                self.exit_investment_unif[year] = self.exit_investment[year - 1] \
+                                             * (1 + np.random.uniform(-self.mu,+self.mu,num_samples))
+            self.exit_investment = self.exit_investment_unif
+        # else:
+        #     self.exit_investment = np.zeros((self.investment_period_year + 1, num_samples))
+        #     self.exit_investment[0] = self.initial_investment
+        #     for year in range(1, self.investment_period_year + 1):
+        #         self.exit_investment[year] = self.exit_investment[year - 1] \
+        #                                      * (1 + np.random.exponential(self.mean_growth_rate, num_samples))
 
             # print(self.exit_investment)
 

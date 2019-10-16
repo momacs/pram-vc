@@ -1,32 +1,21 @@
-import os,sys
+import os
+import sys
 from collections import OrderedDict
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
-from financeLib.Asset import Asset
-from financeLib.Portfolio import Portfolio
-from typing import Dict
 import numpy as np
-import scipy.stats as scs
-import math
-import numpy.random as npr
-from pylab import plt, mpl
 import pandas as pd
-import json
-import scipy.special
-from bokeh.layouts import gridplot,row
-from bokeh.plotting import figure, show, output_file
-from bokeh.models import ColumnDataSource
-from financeLib.stochastics import print_stats
-import scipy.stats as scs
 from pprint import pprint as pp
-from pram.data   import ProbeMsgMode, GroupSizeProbe, ProbePersistanceDB, ProbePersistanceMode,ProbePersistanceMem
-from pram.entity import  Group, GroupQry, GroupSplitSpec
+from pram.data   import ProbeMsgMode, GroupSizeProbe, ProbePersistanceDB, ProbePersistanceMem
+from pram.entity import  Group, GroupSplitSpec
 from pram.rule   import Rule, TimeAlways
 from pram.sim    import Simulation
 pd.options.display.float_format = '{:.4f}'.format
 np.set_printoptions(suppress=True)
+
+
 class UserStartupGrowthRuleVersion2(Rule):
     def __init__(self, tx_matrix, t=TimeAlways(), memo=None):
         super().__init__('startup-growth', t, memo)
@@ -334,7 +323,9 @@ def get_stochastic_multiplier(param = [1, 1.5, 2, 1.5, 1.1, 0]):
 def analysis_Complex(tx_dict= None, population = 100, iteration = 20):
     np.set_printoptions(suppress=True)
     if tx_dict is None:
-        tx_dict = dict(
+        tx_dict = OrderedDict(
+            initial_population=100,
+            invest_val=1000,
             round_seed_a=0.3,
             round_seed_failure=0.67,
             round_a_b=0.2,
@@ -354,7 +345,6 @@ def analysis_Complex(tx_dict= None, population = 100, iteration = 20):
             growth_b=2.2,
             growth_c=2.5,
             growth_success=1.2,
-            initial_population = 1000
         )
         if population is None:
             population = tx_dict.get("initial_population")
@@ -367,9 +357,19 @@ def analysis_Complex(tx_dict= None, population = 100, iteration = 20):
         # stage_multiplier_list = [1, 2, 2.5, 2, 1, 0]
         stage_multiplier_list = [1, 1.8, 2.2, 2.5, 1.2, 0]
         init_inv_list = np.array([100, 300, 600, 0, 0, 0])
-
-        
         # seed = 1, a = 0, b = 0, c = 0, success = 0, failure = 0
+    # Normalizing probabilities
+    if (1 - tx_dict['round_seed_failure'] - tx_dict['round_seed_a']) < 0:
+        tx_dict['round_seed_a'] = 1 - tx_dict['round_seed_failure']
+    if (1 - tx_dict['round_a_failure'] - tx_dict['round_a_a'] - tx_dict['round_a_b']) < 0:
+        tx_dict['round_a_b'] = 1 - tx_dict['round_a_failure']
+        tx_dict['round_a_a'] = 0
+    if (1 - tx_dict['round_b_failure'] - tx_dict['round_b_c'] - tx_dict['round_b_b']) < 0:
+        tx_dict['round_b_c'] = 1 - tx_dict['round_b_failure']
+        tx_dict['round_b_b'] = 0
+    if (1 - tx_dict['round_c_failure'] - tx_dict['round_c_c']) < 0:
+        tx_dict['round_c_c'] = 1 - tx_dict['round_c_failure']
+
     tx_matrix = np.array([
             [0,tx_dict['round_seed_a'], 0, 0, 1 - tx_dict['round_seed_failure']- tx_dict['round_seed_a'],
               tx_dict['round_seed_failure']],
@@ -391,44 +391,53 @@ def analysis_Complex(tx_dict= None, population = 100, iteration = 20):
 
     investment_proportion = OrderedDict(seed = 1, a = 0, b = 0, c = 0, success = 0, failure = 0 )
 
-
     stage_multiplier_list = [1, tx_dict.get("growth_a"), tx_dict.get("growth_b"),
                              tx_dict.get("growth_c"), tx_dict.get("growth_success"), 0 ]
-    init_inv_list = np.array([tx_dict.get("initial_population"), 0, 0, 0, 0, 0])
-    print("init_inv_list",init_inv_list)
+    init_inv_list = np.array([tx_dict.get("invest_val") or 1000, 0, 0, 0, 0, 0])
+    init_inv_list_population = np.array([tx_dict.get("initial_population") or 100, 0, 0, 0, 0, 0])
+    # print("init_inv_list",init_inv_list)
     value = [population]
     # print(tx_matrix)
     # print(tx_matrix.shape)
 
-    ad_value = np.empty(shape=(6,))
+    ad_value    = np.array(init_inv_list)
+    ad_mass     = np.array(init_inv_list_population)
+    population_per_group = np.empty(shape=(6,))
     ad_stage_multiplier_list = np.array(stage_multiplier_list)
 
-    for i in range(16):
+    for i in range(iteration):
+        # #todo costly operation needs to optimize
         init_inv_list = np.matmul(tx_matrix.T, init_inv_list)
-        # print(init_inv_list)
-
+        # #todo costly operation needs to optimize
+        init_inv_list_population = np.matmul(tx_matrix.T, init_inv_list_population)
+        print(init_inv_list_population)
+        # print(50*'=')
         # init_inv_list = ad_stage_multiplier_list * init_inv_list
 
-        mul = get_stochastic_multiplier(stage_multiplier_list)
+        # mul = get_stochastic_multiplier(stage_multiplier_list)
         mul = stage_multiplier_list
         init_inv_list = mul * init_inv_list
         # print(init_inv_list)
         ad_value = np.vstack([ad_value,init_inv_list])
-
+        ad_mass = np.vstack([ad_mass, init_inv_list_population])
 
         # ad_value = np.vstack([ad_value,init_inv_list, temp])
     # print("final")
     # print(ad_value.shape)
-    # print(ad_value)
+    ad_mass = np.around(ad_mass, decimals=2)
+    ad_value = np.around(ad_value, decimals=2)
     annual_valuation = np.sum(ad_value, axis=1)
-    print(np.sum(ad_value, axis=1))
-    cols = ["Seed", "a", "b", "c", "success", "failure"]
+    # print(np.sum(ad_value, axis=1))
+    cols = ["seed", "a", "b", "c", "success", "failure"]
     final_valuation_frame = pd.DataFrame(ad_value, columns=cols)
+    final_mass_frame = pd.DataFrame(ad_mass, columns= cols)
+
     # final_valuation_frame['year'] = final_valuation_frame.index
-    # print(final_valuation_frame)
-    return final_valuation_frame
+    print(final_mass_frame)
+    return final_valuation_frame, final_mass_frame
 
-
+def analysis_complex_montecarlo(sim = 1000):
+    pass
 
 
 

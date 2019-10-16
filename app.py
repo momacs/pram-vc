@@ -38,7 +38,7 @@ import subprocess
 import atexit
 from flask_bootstrap import Bootstrap
 from flask_wtf.csrf import CSRFProtect, CSRF
-
+from localBokeh.transition_graphviz import generate_digraph
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -210,52 +210,13 @@ def pram_analysis():
 
     return render_template("pages/PramAnalysis.html", form=form)
 
-
 @app.route("/PramExitValuation", methods=['GET', 'POST'])
 @app.route("/pramexitval", methods=['GET', 'POST'])
 @csrf.exempt
 def pram_exit_valuation_analysis():
-    form = PramsTxMatrixInputFormLarge()
-
-    if not form.validate_on_submit():
-        print("Form invalid")
-
-        return render_template("pages/exitval.html", form=form)
-
-
-    if request.method == "POST":
-        print(request.form)
-        txMatrix_dict = dict(
-            initial_population=request.form.get('initial_population'),
-            round_seed_a=request.form.get('round_seed_a'),
-            round_seed_failure=request.form.get('round_seed_failure'),
-            round_a_b=request.form.get('round_a_b'),
-            round_a_failure=request.form.get('round_a_failure'),
-            round_b_c=request.form.get('round_b_c'),
-            round_b_failure=request.form.get('round_b_failure'),
-            round_c_success=request.form.get('round_c_success'),
-            round_c_failure=request.form.get('round_c_failure'),
-            round_success_success=request.form.get('round_success_success'),
-            round_success_failure=request.form.get('round_success_failure'),
-            round_failure_success=request.form.get('round_failure_success'),
-            round_failure_failure=request.form.get('round_failure_failure'),
-            round_a_a=request.form.get('round_a_a'),
-            round_b_b=request.form.get('round_b_b'),
-            round_c_c=request.form.get('round_c_c'),
-            growth_a=request.form.get('growth_a'),
-            growth_b=request.form.get('growth_b'),
-            growth_c=request.form.get('growth_c'),
-            growth_success=request.form.get('growth_success'),
-        )
-
-        print(txMatrix_dict)
-        #  Here we work on simulation:
-        print("Working on simulation here")
-        bokeh_script = server_document(url="http://localhost:5006/exitvalchart", arguments=txMatrix_dict)
-        return render_template("pages/exitval.html", form=form, bokeh_script = bokeh_script)
-
-    return render_template("pages/exitval.html", form=form)
-
+    print("Working on simulation here")
+    bokeh_script = server_document(url="http://localhost:5006/pram_startup")
+    return render_template('pages/pramExitVal.html', bokeh_script=bokeh_script)
 
 
 @app.route("/asset", methods=["GET", "POST"])
@@ -288,10 +249,16 @@ def asset():
 def viewAssetDistribution():
     return render_template('pages/viewAssetDistribution.html', chart=True)
 
+@app.route('/comparepram', methods=['GET','POST'])
+@csrf.exempt
+def compare_pram():
+    print("Working on simulation here")
+    bokeh_script = server_document(url="http://localhost:5006/compare")
+    return render_template("pages/compareExitVal.html", bokeh_script=bokeh_script)
+
 @app.route("/compare", methods=["GET", "POST"])
 def compare():
     form = CompareAssetForm()
-
     if request.method == 'POST':
         print(request.form)
         modelData = dict(
@@ -302,15 +269,16 @@ def compare():
             a_periodYears=int(request.form.get('a_periodYears')),
             a_growthRate=float(request.form.get('a_growthRate')),
             a_sigma=float(request.form.get('a_sigma') if request.form.get('a_sigma') != '' else 0),
-            b_dist=request.form.get('a_dist'),
-            b_assetName=request.form.get('a_assetName'),
-            b_entryVal=float(request.form.get('a_entryVal')),
-            b_ownPercent=float(request.form.get('a_ownPercent')),
-            b_periodYears=int(request.form.get('a_periodYears')),
-            b_growthRate=float(request.form.get('a_growthRate')),
-            b_sigma=float(request.form.get('a_sigma') if request.form.get('a_sigma') != '' else 0),
+            b_dist=request.form.get('b_dist'),
+            b_assetName=request.form.get('b_assetName'),
+            b_entryVal=float(request.form.get('b_entryVal')),
+            b_ownPercent=float(request.form.get('b_ownPercent')),
+            b_periodYears=int(request.form.get('b_periodYears')),
+            b_growthRate=float(request.form.get('b_growthRate')),
+            b_sigma=float(request.form.get('b_sigma') if request.form.get('a_sigma') != '' else 0),
             samples=int(request.form.get('samples')),
         )
+        print(modelData)
         chart, stats = getCompareFinalDistribution(modelData)
         a_script, div = components(chart)
         print(stats)
@@ -337,11 +305,8 @@ def compare():
 
 @app.route("/test", methods=["POST","GET"])
 def test():
-    user_addresses = [{"name": "First Address"},
-                      {"name": "Second Address"}]
-    d = [{'name':"myname"},{'name':"myname2"}]
-    form = AddressesForm(addresses=user_addresses, data=d)
-    return render_template("pages/test.html", form=form)
+    chart = generate_digraph()
+    return render_template("pages/test.html", chart = chart)
 
     # if request.method == 'POST':
     #     print(request.form)
@@ -440,3 +405,50 @@ if __name__ == '__main__':
 #             round_failure_success=float(request.form.get('round_failure_success')),
 #             round_failure_failure=float(request.form.get('round_failure_failure')),
 #         )
+
+
+# @app.route("/PramExitValuation", methods=['GET', 'POST'])
+# @app.route("/pramexitval", methods=['GET', 'POST'])
+# @csrf.exempt
+# def pram_exit_valuation_analysis():
+#     form = PramsTxMatrixInputFormLarge()
+#
+#     if not form.validate_on_submit():
+#         print("Form invalid")
+#
+#         return render_template("pages/exitval.html", form=form)
+#
+#
+#     if request.method == "POST":
+#         print(request.form)
+#         txMatrix_dict = dict(
+#             initial_population=request.form.get('initial_population'),
+#             round_seed_a=request.form.get('round_seed_a'),
+#             round_seed_failure=request.form.get('round_seed_failure'),
+#             round_a_b=request.form.get('round_a_b'),
+#             round_a_failure=request.form.get('round_a_failure'),
+#             round_b_c=request.form.get('round_b_c'),
+#             round_b_failure=request.form.get('round_b_failure'),
+#             round_c_success=request.form.get('round_c_success'),
+#             round_c_failure=request.form.get('round_c_failure'),
+#             round_success_success=request.form.get('round_success_success'),
+#             round_success_failure=request.form.get('round_success_failure'),
+#             round_failure_success=request.form.get('round_failure_success'),
+#             round_failure_failure=request.form.get('round_failure_failure'),
+#             round_a_a=request.form.get('round_a_a'),
+#             round_b_b=request.form.get('round_b_b'),
+#             round_c_c=request.form.get('round_c_c'),
+#             growth_a=request.form.get('growth_a'),
+#             growth_b=request.form.get('growth_b'),
+#             growth_c=request.form.get('growth_c'),
+#             growth_success=request.form.get('growth_success'),
+#         )
+#
+#         print(txMatrix_dict)
+#         #  Here we work on simulation:
+#         print("Working on simulation here")
+#         bokeh_script = server_document(url="http://localhost:5006/exitvalchart", arguments=txMatrix_dict)
+#         return render_template("pages/exitval.html", form=form, bokeh_script = bokeh_script)
+#
+#     return render_template("pages/exitval.html", form=form)
+
