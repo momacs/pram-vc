@@ -34,11 +34,12 @@ class PramInteractiveCharts:
                 round_a_a=0.4,
                 round_b_b=0.3,
                 round_c_c=0.3,
-                growth_a=2,
-                growth_b=2.2,
-                growth_c=2.5,
-                growth_success=1.2,
+                growth_a=1.75,
+                growth_b=1.5,
+                growth_c=1.35,
+                growth_success=1.20,
             )
+        self.axis_label_text_font_size = '16pt'
         self.transition_dict = OrderedDict.copy(tx_dict)
         self.inputs = PramInteractiveBokehInputs(self.transition_dict)
         self.probe_group_valuation: pd.DataFrame
@@ -106,10 +107,12 @@ class PramInteractiveCharts:
         exit_valuation_plot.legend.orientation = "horizontal"
         exit_valuation_plot.xaxis.axis_label = "Rounds"
         exit_valuation_plot.yaxis.axis_label = "Exit Valuation"
-        exit_valuation_plot.xaxis.axis_label_text_font_size = '16pt'
-        exit_valuation_plot.yaxis.axis_label_text_font_size = '16pt'
+        exit_valuation_plot.xaxis.axis_label_text_font_size = self.axis_label_text_font_size
+        exit_valuation_plot.yaxis.axis_label_text_font_size = self.axis_label_text_font_size
+        exit_valuation_plot.xaxis.major_label_text_font_size = "14pt"
+        exit_valuation_plot.yaxis.major_label_text_font_size = "14pt"
         return exit_valuation_plot
-        # exit_valuation_plot.title.axis_label_text_font_size = '16pt'
+        # exit_valuation_plot.title.axis_label_text_font_size = self.axis_label_text_font_size
 
     def generate_exit_population_plot(self):
         exit_population_plot = figure(x_range=self.plot_x, plot_height=650, plot_width = 750, toolbar_location=None,
@@ -123,8 +126,10 @@ class PramInteractiveCharts:
         exit_population_plot.legend.orientation = "horizontal"
         exit_population_plot.xaxis.axis_label = "Rounds"
         exit_population_plot.yaxis.axis_label = "Number of startups (Mass)"
-        exit_population_plot.xaxis.axis_label_text_font_size = '16pt'
-        exit_population_plot.yaxis.axis_label_text_font_size = '16pt'
+        exit_population_plot.xaxis.axis_label_text_font_size = self.axis_label_text_font_size
+        exit_population_plot.yaxis.axis_label_text_font_size = self.axis_label_text_font_size
+        exit_population_plot.xaxis.major_label_text_font_size = "14pt"
+        exit_population_plot.yaxis.major_label_text_font_size = "14pt"
 
         return exit_population_plot
 
@@ -138,9 +143,11 @@ class PramInteractiveCharts:
         p.title.text_font_size = '18pt'
         p.legend.orientation = "horizontal"
         p.xaxis.axis_label = "Rounds"
-        p.yaxis.axis_label = "Number of startups (Mass)"
-        p.xaxis.axis_label_text_font_size = '16pt'
-        p.yaxis.axis_label_text_font_size = '16pt'
+        p.yaxis.axis_label = "Total Exit Valuation"
+        p.xaxis.axis_label_text_font_size = self.axis_label_text_font_size
+        p.yaxis.axis_label_text_font_size = self.axis_label_text_font_size
+        p.xaxis.major_label_text_font_size= "14pt"
+        p.yaxis.major_label_text_font_size = "14pt"
         return p
 
 class PramInteractiveBokehInputs:
@@ -165,10 +172,10 @@ class PramInteractiveBokehInputs:
                 round_a_a=0.4,
                 round_b_b=0.3,
                 round_c_c=0.3,
-                growth_a=2,
-                growth_b=2.2,
-                growth_c=2.5,
-                growth_success=1.2,
+                growth_a=1.75,
+                growth_b=1.5,
+                growth_c=1.35,
+                growth_success=1.20,
             )
 
         self.slider_dict = OrderedDict()
@@ -176,7 +183,7 @@ class PramInteractiveBokehInputs:
         # self.opt = ['100', '1000', '10000', '100000']
         self.opt = ['20', '1000', '10000', '100000']
         self.slider_dict['initial_population'] = Slider(title="Population", value=tx_matrix.get('initial_population'),
-                                                        start = 20, end = 10000, step = 100)
+                                                        start = 0, end = 1000, step = 10)
         self.slider_dict['invest_val'] = Slider(title="Initial Investment",
                                                    value=tx_matrix.get("invest_val"), start = 1000, end = 100000, step = 1000)
         # self.slider_dict['initial_population'] = Select(title = "Population", options = [100,1000,10000,100000], value = 100)

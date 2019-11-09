@@ -1,4 +1,6 @@
 {% extends 'layouts/main.html' %}
+
+
 {% block title %} Compare Pram Simulation {% endblock %}
 {% block content %}
 
@@ -6,4 +8,11 @@
         {{ bokeh_script|safe }}
     </div>
 
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("content").style.marginLeft = '20px';
+        document.getElementById("content").style.marginRight = '20px';
+    });
+</script>
 {% endblock %}
+

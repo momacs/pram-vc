@@ -28,6 +28,9 @@ def generate_digraph(tx_dict = None, node_list = None, op_png = False):
             round_success_failure=0,
             round_failure_success=0,
             round_failure_failure=1,
+            round_seed_success=0.03,
+            round_a_success=0.1,
+            round_b_success=0.2,
             round_a_a=0.4,
             round_b_b=0.3,
             round_c_c=0.3,
@@ -46,13 +49,13 @@ def generate_digraph(tx_dict = None, node_list = None, op_png = False):
     tx_graph.attr(size='6,6')
 
     for node in node_list:
-        tx_graph.node(node)
+        tx_graph.node(node.upper())
 
     for node_name, node_value in tx_dict.items():
         node_name:str
         if node_name.find("round") >= 0:
             _, start_node, end_node = node_name.split("_")
-            tx_graph.edge(start_node, end_node, label=str(round(node_value,2)))
+            tx_graph.edge(start_node.upper(), end_node.upper(), label=str(round(node_value,2)))
     tx_graph.format='png'
     tx_graph.render()
     # Line below for PNG
@@ -66,7 +69,7 @@ def generate_digraph(tx_dict = None, node_list = None, op_png = False):
     return chart_output
     # tx_graph.view()
 
-generate_digraph()
+generate_digraph(op_png = True)
 
 def generate_bokeh_graph():
 
@@ -115,7 +118,7 @@ def generate_bokeh_graph():
 
 # generate_bokeh_graph()
 #
-# u = Digraph('digraph', filename='digraph.gv',
+# u = Digraph('digraph', file_path='digraph.gv',
 #             node_attr={'color': 'lightblue2', 'style': 'filled'})
 # u.attr(size='6,6')
 #

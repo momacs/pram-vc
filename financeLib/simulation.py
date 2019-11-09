@@ -564,3 +564,48 @@ if __name__ == "__main__":
     print()
 
 
+
+class StartupGrowthRule(Rule):
+    def apply(self, pop, group, iter, t):
+        p_success = 0.03  # prob of success
+        p_next = 0.3
+        if group.has_attr({ 'stage': 's' }):
+            return [
+                GroupSplitSpec(p=1 - p_success - p_next, attr_set={ 'stage': 'failure' }),
+                GroupSplitSpec(p= p_next  ,   attr_set={ 'stage': 'a' }),
+                GroupSplitSpec(p=p_success,  attr_set={ 'stage': 'success' })
+            ]
+        if group.has_attr({ 'stage': 'a' }):
+            return [
+                GroupSplitSpec(p=0.20, attr_set={ 'stage': 'b' }),
+                GroupSplitSpec(p=0.20, attr_set={ 'stage': 'success' }),
+                GroupSplitSpec(p=0.60, attr_set={ 'stage': 'failure' })
+            ]
+        if group.has_attr({ 'stage': 'b' }):
+            return [
+                GroupSplitSpec(p=0.30, attr_set={ 'stage': 'c' }),
+                GroupSplitSpec(p=0.30, attr_set={ 'stage': 'success' }),
+                GroupSplitSpec(p=0.40, attr_set={ 'stage': 'failure' })
+            ]
+        if group.has_attr({ 'stage': 'c' }):
+            return [
+                GroupSplitSpec(p=0.50, attr_set={ 'stage': 'success' }),
+                GroupSplitSpec(p=0.50, attr_set={ 'stage': 'failure' })
+            ]
+        if group.has_attr({ 'stage': 'success' }):
+            return [
+                GroupSplitSpec(p=1, attr_set={ 'stage': 'success' }),
+            ]
+        if group.has_attr({ 'stage': 'failure' }):
+            return [
+                GroupSplitSpec(p=1, attr_set={ 'stage': 'failure' })
+            ]
+    def __init__(self, t=TimeAlways(), memo=None):
+        super().__init__('startup-growth', t, memo)
+    def is_applicable(self, group, iter, t):
+        return super().is_applicable(group, iter, t) and group.has_attr([ 'stage' ])
+    def setup(self, pop, group):
+        return [
+            GroupSplitSpec(p=1.0, attr_set={ 'stage': 's' })
+        ]
+

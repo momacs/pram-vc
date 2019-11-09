@@ -358,17 +358,48 @@ def analysis_Complex(tx_dict= None, population = 100, iteration = 20):
         stage_multiplier_list = [1, 1.8, 2.2, 2.5, 1.2, 0]
         init_inv_list = np.array([100, 300, 600, 0, 0, 0])
         # seed = 1, a = 0, b = 0, c = 0, success = 0, failure = 0
-    # Normalizing probabilities
+    # # Normalizing probabilities
     if (1 - tx_dict['round_seed_failure'] - tx_dict['round_seed_a']) < 0:
         tx_dict['round_seed_a'] = 1 - tx_dict['round_seed_failure']
+
     if (1 - tx_dict['round_a_failure'] - tx_dict['round_a_a'] - tx_dict['round_a_b']) < 0:
         tx_dict['round_a_b'] = 1 - tx_dict['round_a_failure']
         tx_dict['round_a_a'] = 0
+
     if (1 - tx_dict['round_b_failure'] - tx_dict['round_b_c'] - tx_dict['round_b_b']) < 0:
         tx_dict['round_b_c'] = 1 - tx_dict['round_b_failure']
         tx_dict['round_b_b'] = 0
+
     if (1 - tx_dict['round_c_failure'] - tx_dict['round_c_c']) < 0:
         tx_dict['round_c_c'] = 1 - tx_dict['round_c_failure']
+
+        # Normalizing probabilities
+        # if (1 - tx_dict['round_seed_failure'] - tx_dict['round_seed_a']) < 0:
+        #     tx_dict['round_seed_failure'] = tx_dict['round_seed_failure'] / (
+        #                 tx_dict['round_seed_failure'] + tx_dict['round_seed_a'])
+        #     tx_dict['round_seed_a'] = tx_dict['round_seed_a'] / (
+        #                 tx_dict['round_seed_failure'] + tx_dict['round_seed_a'])
+        #
+        # if (1 - tx_dict['round_a_failure'] - tx_dict['round_a_a'] - tx_dict['round_a_b']) < 0:
+        #     tx_dict['round_a_failure'] = tx_dict['round_a_failure'] / (
+        #                 tx_dict['round_a_failure'] + tx_dict['round_a_a'] + tx_dict['round_a_b'])
+        #     tx_dict['round_a_a'] = tx_dict['round_a_a'] / (
+        #                 tx_dict['round_a_failure'] + tx_dict['round_a_a'] + tx_dict['round_a_b'])
+        #     tx_dict['round_a_b'] = tx_dict['round_a_b'] / (
+        #                 tx_dict['round_a_failure'] + tx_dict['round_a_a'] + tx_dict['round_a_b'])
+        #
+        # if (1 - tx_dict['round_b_failure'] - tx_dict['round_b_c'] - tx_dict['round_b_b']) < 0:
+        #     tx_dict['round_b_failure'] = tx_dict['round_b_failure'] / (
+        #                 tx_dict['round_b_failure'] + tx_dict['round_b_c'] + tx_dict['round_b_b'])
+        #     tx_dict['round_b_c'] = tx_dict['round_b_c'] / (
+        #                 tx_dict['round_b_failure'] + tx_dict['round_b_c'] + tx_dict['round_b_b'])
+        #     tx_dict['round_b_b'] = tx_dict['round_b_b'] / (
+        #                 tx_dict['round_b_failure'] + tx_dict['round_b_c'] + tx_dict['round_b_b'])
+        #
+        # if (1 - tx_dict['round_c_failure'] - tx_dict['round_c_c']) < 0:
+        #     tx_dict['round_c_failure'] = tx_dict['round_c_failure'] / (
+        #                 tx_dict['round_c_failure'] + tx_dict['round_c_c'])
+        #     tx_dict['round_c_c'] = tx_dict['round_c_c'] / (tx_dict['round_c_failure'] + tx_dict['round_c_c'])
 
     tx_matrix = np.array([
             [0,tx_dict['round_seed_a'], 0, 0, 1 - tx_dict['round_seed_failure']- tx_dict['round_seed_a'],

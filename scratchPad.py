@@ -1,55 +1,152 @@
-from OpenSSL._util import byte_string
-from bokeh.io import show, output_file
-from bokeh.models import ColumnDataSource
-import  numpy as np
+from pram.rule import Sequence, DifferenceEquation, TimeAlways, Rule, FibonacciSeq  # , FibonacciSeq
+from pram.sim import Simulation
+from pram.entity import Group, GroupQry, GroupSplitSpec, Site
 
-fruits = ['Apples', 'Pears', 'Nectarines', 'Plums', 'Grapes', 'Strawberries']
-counts = [[5, 3, 4, 2, 4, 6],[1, 2, 3, 4, 5, 6],[6, 5, 4, 3, 2, 1]]
-
-source1 = ColumnDataSource(data=dict(fruits=fruits, counts=counts[0]))
-
-print(counts[0])
-print(counts[1])
-print(counts[2])
-
-data = {}
-
-# print(data.get("abc"))
-population = "population"
-a = ["n0","n1","n2","n3","n4","n5"]
-b = ['seed', 'a', 'b', 'c',  'success', 'failure']
-c = [population, 0, 0, 0, 0, 0]
-# print(dict(zip(b,c)))
-
-args = {'bokeh-autoload-element': [b'1002'], 'bokeh-app-path': [b'/main'],
-        'bokeh-absolute-url': [b'http://localhost:5006/main'],
-        'initial_population': [b'100000000'],
-        'round_seed_a': [b'0.2'], 'round_seed_failure': [b'0.2'], 'round_a_b': [b'0.2'],
-        'round_a_failure': [b'0.2'], 'round_b_c': [b'0.2'], 'round_b_failure': [b'0.2'],
-        'round_c_success': [b'0.2'], 'round_c_failure': [b'0.2'],
-        'round_success_success': [b'0.2'], 'round_success_failure': [b'0.2'],
-        'round_failure_success': [b'0.2'], 'round_failure_failure': [b'0.2']}
-#
-# print(int(args.get('initial_population')[0]))
-# print((args.get('round_seed_a')[0]).decode("utf-8"))
-# print(type(float((args.get('round_seed_a')[0]).decode("utf-8"))))
-# keys = ['initial_population', 'round_seed_a', 'round_seed_failure', 'round_a_b', 'round_a_failure', 'round_b_c', 'round_b_failure', 'round_c_success', 'round_c_failure', 'round_success_success', 'round_success_failure', 'round_failure_success', 'round_failure_failure']
-#
-# for k in keys:
-#     args[k] = float((args.get(k)[0]).decode("utf-8"))
-#
-
-print(args)
+from pprint import pprint as pp
+from pram.data import ProbeMsgMode, GroupSizeProbe, ProbePersistanceDB, ProbePersistanceMem
+from pram.entity import Group, GroupSplitSpec
+from pram.rule import Rule, TimeAlways
+from pram.sim import Simulation
 
 
-def get_stochastic_multiplier(param = [1, 1.5, 2, 1.5, 1.1, 0]):
-    stage_multiplier_list = [np.random.normal(param[0], 0.1 * param[0]),
-                             np.random.normal(param[1], 0.1 * param[1]),
-                             np.random.normal(param[2], 0.1 * param[2]),
-                             np.random.normal(param[3], 0.1 * param[3]),
-                             np.random.normal(param[4], 0.1 * param[4]),
-                             np.random.normal(param[5], 0.1 * param[5])
-                             ]
-    return stage_multiplier_list
+class Sample(Rule):
 
-print(get_stochastic_multiplier())
+    def __init__(self, t=TimeAlways(), memo=None):
+        super().__init__('startup-growth', t, memo)
+
+    def apply(self, pop, group, iter, t):
+        if group.has_attr({'stage': 'c'}):
+            return [
+                GroupSplitSpec(p=0.3, attr_set={'stage': 'failure'}),
+                GroupSplitSpec(p=0.4, attr_set={'stage': 'c'}),
+                GroupSplitSpec(p=0.3, attr_set={'stage': 'success'})
+            ]
+        if group.has_attr({'stage': 'success'}):
+            return [
+                GroupSplitSpec(p=0.1, attr_set={'stage': 'failure'}),
+                GroupSplitSpec(p=0.2, attr_set={'stage': 'c'}),
+                GroupSplitSpec(p=0.7, attr_set={'stage': 'success'}),
+
+            ]
+        if group.has_attr({'stage': 'failure'}):
+            return [
+                GroupSplitSpec(p=0.75, attr_set={'stage': 'failure'}),
+                GroupSplitSpec(p=0.2, attr_set={'stage': 'c'}),
+                GroupSplitSpec(p=0.05, attr_set={'stage': 'success'})
+            ]
+
+    def is_applicable(self, group, iter, t):
+        return super().is_applicable(group, iter, t) and group.has_attr(['stage'])
+
+    def setup(self, pop, group):
+        return [
+            GroupSplitSpec(p=1.0, attr_set={'stage': 'c'})
+        ]
+
+
+class SimpleMultiplyCombined(Rule):
+
+    def __init__(self, t=TimeAlways(), memo=None):
+        super().__init__('startup-growth', t, memo)
+
+    def apply(self, pop, group, iter, t):
+        if group.has_attr({'stage': 'c'}):
+            c_value = group.get_attr("value") or 0
+            # print("c_value is ",c_value)
+            return [
+                GroupSplitSpec(p=0.3, attr_set={'stage': 'failure', 'value': 0 * c_value}),
+                GroupSplitSpec(p=0.4, attr_set={'stage': 'c', 'value': 2 * c_value}),
+                GroupSplitSpec(p=0.3, attr_set={'stage': 'success', 'value': 1.5 * c_value})
+            ]
+        if group.has_attr({'stage': 'success'}):
+            success_value = group.get_attr("value") or 0
+            return [
+                GroupSplitSpec(p=0.1, attr_set={'stage': 'failure', 'value': 0 * success_value}),
+                GroupSplitSpec(p=0.2, attr_set={'stage': 'c', 'value': 2 * success_value}),
+                GroupSplitSpec(p=0.7, attr_set={'stage': 'success', 'value': 1.5 * success_value}),
+
+            ]
+        if group.has_attr({'stage': 'failure'}):
+            failure_value = group.get_attr("value") or 0
+            return [
+                GroupSplitSpec(p=0.75, attr_set={'stage': 'failure', 'value': 0 * failure_value}),
+                GroupSplitSpec(p=0.2, attr_set={'stage': 'c', 'value': 2 * failure_value}),
+                GroupSplitSpec(p=0.05, attr_set={'stage': 'success', 'value': 1.5 * failure_value})
+            ]
+
+    def is_applicable(self, group, iter, t):
+        return super().is_applicable(group, iter, t) and group.has_attr(['stage']) and group.has_attr(['value'])
+
+    def setup(self, pop, group):
+        return [
+            GroupSplitSpec(p=1.0, attr_set={'stage': 'c', "value": 1000})
+        ]
+
+
+class SimpleMultiplyMain(Rule):
+
+    def __init__(self, t=TimeAlways(), memo=None):
+        super().__init__('valuation', t, memo)
+
+    def apply(self, pop, group, iter, t):
+        if group.has_attr({'stage': 'c'}):
+            c_value = group.get_attr("value") or 0
+
+            return [
+                GroupSplitSpec(p=0.3, attr_set={'value': 0 * c_value}),
+                GroupSplitSpec(p=0.4, attr_set={'value': 2 * c_value}),
+                GroupSplitSpec(p=0.3, attr_set={'value': 1.5 * c_value})
+            ]
+        if group.has_attr({'stage': 'success'}):
+            success_value = group.get_attr("value") or 0
+            return [
+                GroupSplitSpec(p=0.1, attr_set={'value': 0 * success_value}),
+                GroupSplitSpec(p=0.2, attr_set={'value': 2 * success_value}),
+                GroupSplitSpec(p=0.7, attr_set={'value': 1.5 * success_value}),
+
+            ]
+        if group.has_attr({'stage': 'failure'}):
+            failure_value = group.get_attr("value") or 0
+            return [
+                GroupSplitSpec(p=0.75, attr_set={'value': 0 * failure_value}),
+                GroupSplitSpec(p=0.2, attr_set={'value': 2 * failure_value}),
+                GroupSplitSpec(p=0.05, attr_set={'value': 1.5 * failure_value})
+            ]
+
+    def is_applicable(self, group, iter, t):
+        return super().is_applicable(group, iter, t) and group.has_attr(['stage', 'value'])
+
+    def setup(self, pop, group):
+        return [
+            GroupSplitSpec(p=1.0, attr_set={"value": 1000})
+        ]
+
+
+old_p = GroupSizeProbe.by_attr('stage', 'stage', ['c', 'success', 'failure'], persistance=ProbePersistanceMem(),
+                               msg_mode=ProbeMsgMode.CUMUL)
+
+probe2 = GroupSizeProbe.by_attr("value", "value", ['c', 'success', 'failure'], persistance=ProbePersistanceMem(),
+                                msg_mode=ProbeMsgMode.DISP)
+
+# c_group = Group(name="c", m = 100, attr = {"stage" : "c", "value": 1000})
+# success_group = Group(name="success", m = 100, attr ={"stage":"success", "value" : 1000})
+# failure_group = Group(name="failure", m = 100, attr = {"stage": "failure", "value" : 1000})
+
+c_group = Group(name="c", m=100, attr={"stage": "c"})
+success_group = Group(name="success", m=100, attr={"stage": "success"})
+failure_group = Group(name="failure", m=100, attr={"stage": "failure"})
+
+sim = (
+    Simulation().
+        add([
+        SimpleMultiplyCombined(),
+        old_p,
+        probe2,
+        c_group, success_group, failure_group
+    ]).
+        run(10)
+)
+
+print(sim.probes[0].get_msg())
+print(sim.probes[1].get_msg())
+print()
